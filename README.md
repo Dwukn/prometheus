@@ -63,6 +63,23 @@ After training, the models can be evaluated on validation and test datasets. Val
 predict = eyenet_model.predict(X_val)
 ```
 
+### Predicting with the Model
+
+To make predictions on new images:
+
+1. Ensure the trained model is saved in the `model/` directory (e.g., `extension_weights.hdf5`).
+2. Use the provided `predict_retinal_disease.py` script. Update the `image_path` variable in the script with the path to your image.
+
+Run the prediction script:
+
+```bash
+python predict_retinal_disease.py
+```
+
+This will display the input image along with the predicted retinal disease.
+
+
+
 ## Results
 
 The project will output accuracy metrics for each model after validation and testing phases. Key metrics include:
