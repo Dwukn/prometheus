@@ -17,6 +17,7 @@ To use Klipb, ensure you have the following:
 
 - **Wayland**: A display server protocol.
 - **rofi**: A window switcher and application launcher.
+- **C++**: The application is written in C++ and requires a C++ compiler to build.
 
 ## Installation
 
@@ -26,20 +27,19 @@ To use Klipb, ensure you have the following:
    cd klipb
    ```
 
-2. Build the application:
+2. Install dependencies:
+   Make sure you have `wl-clipboard` and `rofi` installed:
+     ```bash
+     sudo apt install wl-clipboard rofi
+     ```
+
+3. Build the application:
+   You can build the project using `g++` or any other C++ compiler:
    ```bash
-   go build -o klipb
+   g++ -o klipb src/*.cpp -lwl-clipboard -lrofi -std=c++11
    ```
 
-3. Ensure you have `wl-clipboard` installed:
-   ```bash
-   sudo apt install wl-clipboard
-   ```
-
-4. Optionally, install `rofi` if it's not already installed:
-   ```bash
-   sudo apt install rofi
-   ```
+   This will compile the source files located in the `src/` folder and generate the `klipb` executable.
 
 ## Usage
 
