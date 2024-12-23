@@ -1,3 +1,5 @@
+// original name was tic_tac_toe but wont work cause apperenty rust needs main.rs to run
+
 use std::io::{self, Write};
 
 #[derive(Clone, Copy, PartialEq, Debug)]
