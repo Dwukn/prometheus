@@ -1,4 +1,9 @@
-# This is a study plan to learn DSA Basic in 2 Days(I am doing in 2 days cause i goot prepare for gate and only have a month left)
+# This is a study plan to learn DSA Basic in 2 Days
+
+
+$${\color{orange} **NOTE:** \space Doing \space it \space in \space 2 \space days \space because \space I \space got \space too \space prepare \space for \space gate \space and \space only \space have \space  \space a \space month \space left.}$$
+  
+
 
 **Python programming** and the **basic data structures and algorithms** you've mentioned in **2 days**, you need an intensive and focused plan. Given the topics, we’ll break them down into manageable tasks for each day. Remember, this plan assumes you have basic programming knowledge, and it focuses on practice rather than theory alone.
 
