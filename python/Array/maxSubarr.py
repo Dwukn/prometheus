@@ -7,8 +7,8 @@ def maxSubarraySum(res):
     return maxSum
 
 def main():
-    res = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-    print("Maximum Subarray Sum:", maxSubarraySum(res))
+    arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+    print("Maximum Subarray Sum:", maxSubarraySum(arr))
 
 if __name__ == "__main__":
     main()
