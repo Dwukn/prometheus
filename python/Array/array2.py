@@ -19,6 +19,9 @@ print("Array after popping element at index 2:", arr)
 del arr[0]  # removes element at index 0
 print("Array after deleting the first element:", arr)
 
+del arr[len(arr) -1]
+print("Array after deleting the last element:", arr)
+
 print("Length of Array:", len(arr))  # gives the length of the array
 
 arr.clear()  # removes all elements in the array
@@ -99,7 +102,9 @@ three_d_array = [
     [[1, 2], [3, 4]],
     [[5, 6], [7, 8]]
 ]
-
+print("\n 3D Array:")
+for roe in three_d_array:
+    print(roe)
 # Accessing elements in a 3D array
 print("\n3D Array Element Access:")
 print("Element at [0][1][1]:", three_d_array[0][1][1])  # 4

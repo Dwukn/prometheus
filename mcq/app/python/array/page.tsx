@@ -1,14 +1,24 @@
-// components/ArrayMCQs.tsx
-'use client';
-
+// components/ArrayMCQs.js
 import { useState } from 'react';
+import React from 'react';
 
 type UserAnswers = {
   [key: string]: string; // mapping question keys (q1, q2, ...) to answers (A, B, C, D)
 };
 
-export default function ArrayMCQs() {
-  const correctAnswers: { [key: string]: string } = {
+export default function Question() {
+      const [userAnswers, setUserAnswers] = useState<UserAnswers>({});
+      const [score, setScore] = useState<number | null>(null);
+      const [feedbackColor, setFeedbackColor] = useState<string>('');
+
+  const handleAnswerChange = (question: string, answer: string) => {
+    setUserAnswers({
+      ...userAnswers,
+      [question]: answer,
+    });
+  };
+      const ArrayMCQs = () => {
+          const correctAnswers = {
     q1: 'A',
     q2: 'C',
     q3: 'B',
@@ -21,11 +31,11 @@ export default function ArrayMCQs() {
     q10: 'A',
   };
 
-  const [userAnswers, setUserAnswers] = useState<UserAnswers>({});
-  const [score, setScore] = useState<number | null>(null);
-  const [feedbackColor, setFeedbackColor] = useState<string>('');
+  const [userAnswers, setUserAnswers] = useState({});
+  const [score, setScore] = useState(null);
+  const [feedbackColor, setFeedbackColor] = useState('');
 
-  const handleAnswerChange = (question: string, answer: string) => {
+  const handleAnswerChange = (question, answer) => {
     setUserAnswers({
       ...userAnswers,
       [question]: answer,
@@ -57,9 +67,7 @@ export default function ArrayMCQs() {
 
       {/* Question 1 */}
       <div className="mb-4">
-        <p className="font-semibold">
-          1. Consider the following array of integers: `arr = [1, 4, 2, 10, 8, 3]`. What will be the output of the following code segment?
-        </p>
+        <p className="font-semibold">1. Consider the following array of integers: `arr = [1, 4, 2, 10, 8, 3]`. What will be the output of the following code segment?</p>
         <pre className="bg-gray-100 p-2 text-sm my-2">
           arr.sort(reverse=True)<br />
           print(arr[1:4])
@@ -86,6 +94,35 @@ export default function ArrayMCQs() {
 
       {/* Add more questions here following the same pattern */}
 
+<div className="mb-4">
+<p className="font-semibold">
+  1. Consider the following array of integers: `arr = [1, 4, 2, 10, 8, 3]`. What will be the output of the following code segment?
+</p>
+<pre className="bg-gray-100 p-2 text-sm my-2">
+  arr.sort(reverse=True)<br />
+  print(arr[1:4])
+</pre>
+<div>
+  <label className="block">
+    <input type="radio" name="q1" value="A" onChange={() => handleAnswerChange('q1', 'A')} />
+    A) [10, 8, 4]
+  </label>
+  <label className="block">
+    <input type="radio" name="q1" value="B" onChange={() => handleAnswerChange('q1', 'B')} />
+    B) [10, 8, 3]
+  </label>
+  <label className="block">
+    <input type="radio" name="q1" value="C" onChange={() => handleAnswerChange('q1', 'C')} />
+    C) [10, 4, 2]
+  </label>
+  <label className="block">
+    <input type="radio" name="q1" value="D" onChange={() => handleAnswerChange('q1', 'D')} />
+    D) [8, 4, 2]
+  </label>
+</div>
+</div>
+
+
       <button
         onClick={checkAnswers}
         className="w-full py-2 mt-6 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -100,4 +137,6 @@ export default function ArrayMCQs() {
       )}
     </div>
   );
+};
+
 }

@@ -13,7 +13,7 @@ def main():
     n = len(arr)
     rotated_arr = rotate(arr, n, k)
     print("Array after rotating by", k, "positions:", rotated_arr)
-    print(arr[-k:])
+    # print(arr[-k:])
 
 if __name__ == "__main__":
     main()
