@@ -1,41 +1,44 @@
 #!/bin/bash
 # /* ---- 💫 https://github.com/Dwukn 💫 ---- */  ##
 
-# Modified version of Refresh.sh but waybar wont refresh
-# Used by automatic wallpaper change
-# Modified inorder to refresh rofi background, Wallust, SwayNC only
+# Modified version of Refresh.sh for automatic wallpaper change.
+# This script refreshes rofi background, Wallust, and SwayNC only.
+# Waybar refresh is not included.
 
-SCRIPTSDIR=$HOME/.config/hypr/scripts
-UserScripts=$HOME/.config/hypr/UserScripts
+SCRIPTSDIR="$HOME/.config/hypr/scripts"
+UserScripts="$HOME/.config/hypr/UserScripts"
 
-# Define file_exists function
+# Function to check if a file exists
 file_exists() {
-    if [ -e "$1" ]; then
-        return 0  # File exists
-    else
-        return 1  # File does not exist
+    [[ -e "$1" ]] && return 0 || return 1
+}
+
+# Kill already running rofi processes (if any)
+kill_running_process() {
+    local process="$1"
+    if pidof "$process" >/dev/null; then
+        pkill "$process"
     fi
 }
 
-# Kill already running processes
-_ps=(rofi)
-for _prs in "${_ps[@]}"; do
-    if pidof "${_prs}" >/dev/null; then
-        pkill "${_prs}"
-    fi
+# List of processes to terminate
+processes_to_kill=(rofi)
+
+# Kill each process in the list
+for process in "${processes_to_kill[@]}"; do
+    kill_running_process "$process"
 done
 
-# quit ags
+# Quit ags gracefully
 ags -q
 
-# Wallust refresh
-${SCRIPTSDIR}/WallustSwww.sh &
+# Refresh Wallust (trigger wallpaper update)
+"${SCRIPTSDIR}/WallustSwww.sh" &
 
-# Relaunching rainbow borders if the script exists
+# Relaunch Rainbow Borders script if it exists
 sleep 1
 if file_exists "${UserScripts}/RainbowBorders.sh"; then
-    ${UserScripts}/RainbowBorders.sh &
+    "${UserScripts}/RainbowBorders.sh" &
 fi
-
 
 exit 0
