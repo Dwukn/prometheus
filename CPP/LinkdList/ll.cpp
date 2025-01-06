@@ -88,7 +88,7 @@ public:
             cout << temp->data << " -> ";  // Print data of the current node
             temp = temp->next;  // Move to the next node
         }
-        cout << "nullptr" << endl;  // End of the list
+        cout << "end" << endl;  // End of the list
     }
 
     // Destructor to delete all nodes when the list is destroyed
