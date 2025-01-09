@@ -12,21 +12,77 @@ This is a basic implementation of a version control system (VCS) written in C. I
 
 ## Installation
 
-To use this simple version control system, you need to have a C compiler (such as GCC) installed.
 
-### 1. Clone or download the repository to your local machine.
-``` bash
-git clone https://github.com/Dwukn/gitlite.git
-```
-### 2. Navigate to the project directory in the terminal.
-```bash
-cd gitlite
-```
-### 3. Compile the program:
+### Option 1: Manual Installation
+
+1. **Clone the Repository**
+   
+   First, clone the repository to your local machine using the following command:
+
+   ```bash
+   git clone https://github.com/Dwukn/gitlite.git
+   ```
+
+2. **Navigate to the Project Directory**
+
+   Change into the project directory:
+
+   ```bash
+   cd gitlite
+   ```
+
+3. **Compile the Program**
+
+   Compile the C program using `gcc`:
+
+   ```bash
+   gcc vcs.c -o vcs
+   ```
+
+   After compiling, you can run the program with:
+
+   ```bash
+   ./vcs
+   ```
+
+### Option 2: One-Step Installation
+
+For a quicker setup, you can use the following one-liner to download and run the installation script directly from the terminal:
 
 ```bash
-gcc vcs.c -o vcs
+bash <(curl -s https://raw.githubusercontent.com/Dwukn/gitlite/refs/heads/main/install.sh)
 ```
+
+This will automatically:
+
+- Clone the repository.
+- Navigate to the project directory.
+- Compile the program.
+
+#### Once the script completes, the `vcs` program will be ready to use.
+
+
+### Requirements
+
+- A C compiler like **GCC** needs to be installed on your system.
+
+### Key Improvements:
+
+1. **Clarified the Instructions**: 
+   - The instructions are now divided into two clear options: **Manual Installation** (Option 1) and **One-Step Installation** (Option 2).
+   - Added a brief description of what each option does.
+
+2. **Streamlined Code Blocks**:
+   - Used proper code block formatting for each command so that it's easier to copy and execute.
+   
+3. **Added Requirement Section**:
+   - Included a note about the need for a C compiler (GCC) for Option 1, making the README more informative.
+
+4. **Consistency**:
+   - Used consistent formatting and clear titles for each section to enhance readability and clarity.
+
+Now the `README.md` is more user-friendly and easy to follow for anyone who wants to use or contribute to the GitLite project.
+
 
 ## Usage
 
