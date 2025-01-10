@@ -5,8 +5,8 @@ struct Node {
     int data;
     struct Node* next;
 };
-
 struct Node* head = NULL;
+
 void Insert(int x){
     struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
     // *temp.data = x; // This is wrong because temp is a pointer to a struct, not a struct
