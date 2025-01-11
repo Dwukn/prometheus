@@ -29,6 +29,7 @@ export default function Question() {
     q8: 'B',
     q9: 'A',
     q10: 'A',
+    q11: 'C'
   };
 
   const [userAnswers, setUserAnswers] = useState({});
@@ -96,7 +97,7 @@ export default function Question() {
 
 <div className="mb-4">
 <p className="font-semibold">
-  1. Consider the following array of integers: `arr = [1, 4, 2, 10, 8, 3]`. What will be the output of the following code segment?
+  2. Consider the following array of integers: `arr = [1, 4, 2, 10, 8, 3]`. What will be the output of the following code segment?
 </p>
 <pre className="bg-gray-100 p-2 text-sm my-2">
   arr.sort(reverse=True)<br />
@@ -120,8 +121,34 @@ export default function Question() {
     D) [8, 4, 2]
   </label>
 </div>
+
 </div>
 
+<div className="mb-4">
+        <p className="font-semibold">3. Consider the following array of integers: `arr = [1, 4, 2, 10, 8, 3]`. What will be the output of the following code segment?</p>
+        <pre className="bg-gray-100 p-2 text-sm my-2">
+          arr.sort(reverse=True)<br />
+          print(arr[1:4])
+        </pre>
+        <div>
+          <label className="block">
+            <input type="radio" name="q1" value="A" onChange={() => handleAnswerChange('q1', 'A')} />
+            A) [10, 8, 4]
+          </label>
+          <label className="block">
+            <input type="radio" name="q1" value="B" onChange={() => handleAnswerChange('q1', 'B')} />
+            B) [10, 8, 3]
+          </label>
+          <label className="block">
+            <input type="radio" name="q1" value="C" onChange={() => handleAnswerChange('q1', 'C')} />
+            C) [10, 4, 2]
+          </label>
+          <label className="block">
+            <input type="radio" name="q1" value="D" onChange={() => handleAnswerChange('q1', 'D')} />
+            D) [8, 4, 2]
+          </label>
+        </div>
+      </div>
 
       <button
         onClick={checkAnswers}
