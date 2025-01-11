@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Blocked Sites</title>
+      <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #4CAF50; /* Header color */
+    }
+    .main {
+    border: 2px solid #ddd; /* Light gray border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    background-color: #ffffff; /* White background to make it stand out */
+    padding: 20px; /* Add some padding inside */
+}
+
+    .site-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+      background-color: #ffffff; /* White background for entries */
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .site-controls button {
+      margin-left: 5px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
+    }
+    .delete-btn {
+      background-color: #ff4444;
+      color: white;
+    }
+    .delete-btn:hover {
+      background-color: #e63939; /* Darker red on hover */
+      transform: scale(1.05);
+    }
+    .archive-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .archive-btn:hover {
+      background-color: #45a049; /* Darker green on hover */
+      transform: scale(1.05);
+    }
+    .archived {
+      background-color: #ffeb3b; /* Highlight archived sites */
+    }
+    .controls-section {
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #ffffff; /* White background for controls */
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+    }
+    select {
+      margin-left: 10px;
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    small {
+      display:block;
+      text-align:center;
+      color:#777;
+    }
+    .import-section {
+      margin-top: 20px;
+    }
+    input[type="file"] {
+      margin-top: 10px;
+    }
+  .site-entry {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+      background-color: #ffffff;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .site-checkbox {
+      margin-right: 10px;
+    }
+    .bulk-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    .bulk-actions label {
+      display: flex;
+      align-items: center;
+    }
+    .delete-all-btn {
+      background-color: #ff4444;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .delete-all-btn:hover {
+      background-color: #cc0000;
+    }
+    /* Styles for the scrollable container */
+.sites-list-container {
+  max-height: 500px; /* Adjust the height as per your needs */
+  overflow-y: auto;  /* Makes the container scrollable vertically */
+  padding: 10px;
+  border: 1px solid #ccc; /* Optional border styling */
+}
+
+/* Additional styles for the site entries */
+.site-entry {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.site-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.site-controls button {
+  padding: 3px 8px;
+  font-size: 12px;
+}
+
+.site-controls input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+/* Optional styling for archived sites */
+.site-entry.archived {
+  background-color: #f8f8f8;
+  color: gray;
+}
+
+
+  </style>
+</head>
+<body>
+    <div class="main">
+<h1>Manage Blocked Sites</h1>
+<script src="manage.js"></script>
+
+<div class="bulk-actions">
+  <label>
+    <input type="checkbox" id="selectAllCheckbox">
+    Select All
+  </label>
+  <button class="delete-all-btn" id="deleteSelectedBtn">Delete Selected</button>
+</div>
+
+<div class="controls-section">
+  <label>Archive Period:
+    <select id="archivePeriod">
+        <option value="3600">1 hour</option>
+        <option value="86400">1 day</option>
+        <option value="604800">1 week</option>
+        <option value="2592000">30 days</option>
+    </select>
+  </label>
+</div>
+
+<div id="sitesListContainer" class="sites-list-container">
+    <div id="sitesList"></div>
+  </div>
+</div>
+
+</body>
+</html>
