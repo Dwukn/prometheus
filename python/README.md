@@ -103,6 +103,7 @@ $${\color{orange} **NOTE:** \space Doing \space it \space in \space 2 \space day
   - Focus on problems that integrate multiple concepts (e.g., combining linked lists and stacks).
   - Try to implement an algorithm without referring to notes to consolidate learning.
 
+### For GATE prep also focus on analysis of algorithm
 ### **Additional Tips:**
 - **Stay Focused**: The schedule is intense, but the key to mastering these concepts is consistent practice and focus. Don’t rush through topics—understand the underlying logic.
 - **Use Online Resources**: If you get stuck, use Python documentation or look for explanations on platforms like GeeksforGeeks, Stack Overflow, or YouTube tutorials.
