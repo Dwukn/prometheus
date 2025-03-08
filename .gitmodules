@@ -1,0 +1,3 @@
+[submodule "gitlite"]
+	path = gitlite
+	url = git@github.com:Dwukn/gitlite.git
