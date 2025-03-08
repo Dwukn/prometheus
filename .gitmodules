@@ -1,0 +1,3 @@
+[submodule "BlockIT"]
+	path = BlockIT
+	url = git@github.com:Dwukn/BlockIT
