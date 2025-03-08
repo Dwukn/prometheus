@@ -4,3 +4,6 @@
 [submodule "simple-static-code-analyzer"]
 	path = simple-static-code-analyzer
 	url = git@github.com:Dwukn/simple-static-code-analyzer.git
+[submodule "klipb"]
+	path = klipb
+	url = git@github.com:Dwukn/klipb.git
