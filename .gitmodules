@@ -1,0 +1,3 @@
+[submodule "ZSH-plugins"]
+	path = ZSH-plugins
+	url = git@github.com:Dwukn/ZSH-plugins.git
