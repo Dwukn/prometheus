@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebAssembly - Hi, World!</title>
+</head>
+<body>
+  <h1>WebAssembly - Hi, World!</h1>
+  <button onclick="runWasm()">Run WebAssembly</button>
+
+  <script>
+    async function runWasm() {
+      // Load the WebAssembly module
+      const response = await fetch('hi_world.wasm');
+      const wasmBuffer = await response.arrayBuffer();
+      const wasmModule = await WebAssembly.instantiate(wasmBuffer, {
+        env: {
+          // JavaScript function to log output to the console
+          log: (ptr) => {
+            const memory = new Uint8Array(wasmModule.instance.exports.memory.buffer);
+            let string = '';
+            // Read the string from memory until the null terminator is found
+            for (let i = ptr; memory[i] !== 0; i++) {
+              string += String.fromCharCode(memory[i]);
+            }
+            console.log(string);  // Print the string to the console
+          }
+        }
+      });
+
+      // Call the 'hi_world' function from the WebAssembly module
+      wasmModule.instance.exports.hi_world();
+    }
+  </script>
+</body>
+</htm
+  l>
