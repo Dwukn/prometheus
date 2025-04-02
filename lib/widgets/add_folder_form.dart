@@ -31,7 +31,7 @@ class _AddFolderDialogState extends State<AddFolderDialog> {
       title: const Text(
         'Add Folder',
         style: TextStyle(
-          fontSize: 18,
+          fontSize: 12,
           fontWeight: FontWeight.bold,
           color: Colors.blueAccent,
         ),

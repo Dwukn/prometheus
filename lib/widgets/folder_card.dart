@@ -1,4 +1,3 @@
-// folder_card.dart
 import 'package:flutter/material.dart';
 import '../models/folder.dart';
 
@@ -28,59 +27,65 @@ class FolderCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(8),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: 180, // Set a minimum height for the card
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: Icon(
+                        Icons.folder,
+                        color: Colors.blue,
+                        size: 30,
+                      ),
                     ),
-                    padding: const EdgeInsets.all(8),
-                    child: Icon(
-                      Icons.folder,
-                      color: Colors.blue,
-                      size: 32,
-                    ),
+                    const Spacer(),
+                    if (onDelete != null)
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: onDelete,
+                        iconSize: 20,
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  folder.name,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const Spacer(),
-                  if (onDelete != null)
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: onDelete,
-                      iconSize: 20,
-                    ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                folder.name,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '$linkCount links',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 14,
+                const SizedBox(height: 4),
+                Text(
+                  '$linkCount links',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 14,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Created: ${_formatDate(folder.dateCreated)}',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 12,
-                ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                // Optional: You can show creation date here if needed.
+                // Text(
+                //   'Created: ${_formatDate(folder.dateCreated)}',
+                //   style: TextStyle(
+                //     color: Colors.grey[600],
+                //     fontSize: 8,
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ),
       ),

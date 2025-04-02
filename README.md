@@ -1,8 +1,8 @@
-# L-Edger | Modern Link Management
+<h1 align="center">L-Edger | Modern Link Management</h1>
+<br>
 
 <div align="center">
-
-![L-Edger Logo](https://via.placeholder.com/150x150.png)
+<img src="assets/images/icon.png" width="80"/>
 
 **Organize, manage, and access your links with ease**
 

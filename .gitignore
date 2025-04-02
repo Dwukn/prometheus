@@ -9,7 +9,7 @@ build/
 ios/Flutter/.last_build_id
 .idea/
 .vscode/
-
+future-name.txt
 # Android specific
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
