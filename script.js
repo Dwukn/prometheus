@@ -33,19 +33,4 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   });
-  let isEditing = false;
-
-  document.getElementById('edit-toggle').addEventListener('click', () => {
-    isEditing = !isEditing;
-    document.body.classList.toggle('editing-mode', isEditing);
-  });
-  document.querySelectorAll('.link-name').forEach(name => {
-    name.addEventListener('click', (e) => {
-      if (!isEditing) return;
-
-      const newName = prompt('Edit link name:', name.textContent);
-      if (newName) {
-        name.textContent = newName;
-      }
-    });
-  });
+  

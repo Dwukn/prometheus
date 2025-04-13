@@ -10,6 +10,7 @@
     "web_accessible_resources": [
       "styles.css",
       "script.js",
+      "editor.js",
       "images/space.jpg"
     ],
     "icons": {

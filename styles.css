@@ -81,10 +81,19 @@ body::before {
   animation: fadeIn 1s forwards 0.5s;
 }
 
+body.editing-mode .link-card {
+    outline: 2px dashed var(--secondary);
+  }
+
+  body.editing-mode .link-name {
+    cursor: pointer;
+  }
+
 .greeting span {
   font-weight: 500;
   background: linear-gradient(to right, var(--primary), var(--secondary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -137,6 +146,7 @@ body::before {
   text-shadow: 0 0 20px var(--pink-glow);
   background: linear-gradient(to right, var(--primary), var(--secondary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 5px;
   margin-bottom: 10px;
