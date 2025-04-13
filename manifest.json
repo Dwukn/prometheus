@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "CP",
+    "version": "1.0",
+    "description": "Replace new tab with a custom tab",
+    "chrome_url_overrides": {
+      "newtab": "main.html"
+    },
+    "permissions": [],
+    "web_accessible_resources": [
+      "styles.css",
+      "script.js",
+      "images/space.jpg"
+    ],
+    "icons": {
+      "48": "icon.png"
+    }
+  }
