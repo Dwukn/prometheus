@@ -20,7 +20,7 @@
 You will need [Rust](https://www.rust-lang.org/tools/install) installed. Then:
 
 ```bash
-git clone https://github.com/your-username/kondo.git
+git clone https://github.com/Dwukn/kondo.git
 cd kondo
 cargo build --release
 ```
@@ -114,5 +114,3 @@ This project is licensed under the [MIT License](LICENSE).
 - Configurable rules (e.g., based on file size, creation date)
 - Better error handling
 - Option to undo the last organization
-
->>>>>>> a3eb1d9 (Basic Program done)
