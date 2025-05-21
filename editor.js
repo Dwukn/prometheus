@@ -1,40 +1,62 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let isEditing = false;
+  let isEditing = false;
 
-    const editBtn = document.getElementById('edit-toggle');
-    const allLinks = document.querySelectorAll('.link-card');
+  const editBtn = document.getElementById('edit-toggle');
+  const allLinks = document.querySelectorAll('.link-card');
 
-    editBtn.addEventListener('click', () => {
-      isEditing = !isEditing;
-      document.body.classList.toggle('editing-mode', isEditing);
+  const modal = document.getElementById('edit-modal');
+  const nameInput = document.getElementById('edit-name');
+  const urlInput = document.getElementById('edit-url');
+  const iconInput = document.getElementById('edit-icon');
+  const saveBtn = document.getElementById('modal-save');
+  const cancelBtn = document.getElementById('modal-cancel');
 
-      if (isEditing) {
-        editBtn.innerHTML = '<i class="fas fa-check"></i> Done';
-      } else {
-        editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit';
-      }
-    });
+  let currentCard = null;
 
-    allLinks.forEach(linkCard => {
-      linkCard.addEventListener('click', (e) => {
-        if (!isEditing) return;
+  editBtn.addEventListener('click', () => {
+    isEditing = !isEditing;
+    document.body.classList.toggle('editing-mode', isEditing);
 
-        e.preventDefault(); // Prevent link navigation in edit mode
+    editBtn.innerHTML = isEditing
+      ? '<i class="fas fa-check"></i> Done'
+      : '<i class="fas fa-edit"></i> Edit';
+  });
 
-        const nameEl = linkCard.querySelector('.link-name');
-        const iconEl = linkCard.querySelector('.link-icon i');
+  allLinks.forEach(linkCard => {
+    linkCard.addEventListener('click', (e) => {
+      if (!isEditing) return;
 
-        const currentName = nameEl.textContent;
-        const currentURL = linkCard.href;
-        const currentIcon = Array.from(iconEl.classList).join(' ');
+      e.preventDefault();
+      currentCard = linkCard;
 
-        const newName = prompt('Enter new link name:', currentName);
-        const newURL = prompt('Enter new URL:', currentURL);
-        const newIcon = prompt('Enter new Font Awesome class:', currentIcon); // example: "fab fa-google"
+      const nameEl = linkCard.querySelector('.link-name');
+      const iconEl = linkCard.querySelector('.link-icon i');
 
-        if (newName) nameEl.textContent = newName;
-        if (newURL) linkCard.href = newURL;
-        if (newIcon) iconEl.className = newIcon;
-      });
+      nameInput.value = nameEl.textContent;
+      urlInput.value = linkCard.href;
+      iconInput.value = Array.from(iconEl.classList).join(' ');
+
+      modal.style.display = 'flex';
     });
   });
+
+  cancelBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    currentCard = null;
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (!currentCard) return;
+
+    const newName = nameInput.value.trim();
+    const newURL = urlInput.value.trim();
+    const newIcon = iconInput.value.trim();
+
+    if (newName) currentCard.querySelector('.link-name').textContent = newName;
+    if (newURL) currentCard.href = newURL;
+    if (newIcon) currentCard.querySelector('.link-icon i').className = newIcon;
+
+    modal.style.display = 'none';
+    currentCard = null;
+  });
+});

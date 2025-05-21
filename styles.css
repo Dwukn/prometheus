@@ -892,3 +892,96 @@ input:checked + .toggle-slider:before {
     right: -100%;
   }
 }
+
+
+/* Modal Overlay & Container */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 30, 0.8);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.modal {
+  background: var(--glass);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 30px 25px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  color: var(--light);
+  font-family: 'Segoe UI', sans-serif;
+  animation: scaleIn 0.4s ease-out;
+}
+
+.modal h3 {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  font-weight: 500;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  background-clip: text;          
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.modal label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  color: var(--light);
+}
+
+.modal-input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  color: var(--light);
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 10px var(--blue-glow);
+}
+
+.modal-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-button {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.modal-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px var(--pink-glow);
+}
+
+.modal-button.cancel {
+  background: var(--glass-hover);
+  color: var(--light);
+}
+
+.modal-button.cancel:hover {
+  background: var(--glass-active);
+}

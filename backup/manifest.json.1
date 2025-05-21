@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "CP",
+  "version": "1.0",
+  "description": "Replace new tab with a custom tab and open on startup",
+  "chrome_url_overrides": {
+    "newtab": "main.html"
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "web_accessible_resources": [
+    "styles.css",
+    "script.js",
+    "editor.js",
+    "images/space.jpg"
+  ],
+  "icons": {
+    "48": "icon.png"
+  }
+}
+
