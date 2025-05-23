@@ -1,29 +1,39 @@
 {
-  "manifest_version": 2,
-  "name": "SM",
-  "version": "1.0",
+  "manifest_version": 3,
+  "name": "Venus",
+  "version": "2.0.1",
   "description": "Replace new tab with a custom tab",
+  "action": {
+    "default_icon": {
+      "48": "images/icon.png"
+    },
+    "default_title": "Venus Page",
+    "default_popup": "main.html"
+  },
   "chrome_url_overrides": {
     "newtab": "main.html"
   },
   "permissions": [
     "contextMenus"
   ],
-  "browser_action": {
-    "default_icon": {
-      "48": "images/icon.png"
-    },
-    "default_title": "Open Extension Dashboard",
-    "default_popup": "main.html"
+  "background": {
+    "service_worker": "scripts/background.js"
   },
   "web_accessible_resources": [
-    "styles.css",
-    "script.js",
-    "editor.js",
-    "images/space.jpg",
-   "settings/help.html"
+    {
+      "resources": [
+        "styles/styles.css",
+        "scripts/script.js",
+        "scripts/editor.js",
+        "images/space.jpg",
+        "images/space.webp",
+        "settings/help.html"
+      ],
+      "matches": ["<all_urls>"]
+    }
   ],
   "icons": {
     "48": "images/icon.png"
   }
 }
+
