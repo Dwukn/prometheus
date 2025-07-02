@@ -17,15 +17,10 @@
 
 ## 📦 Installation
 
-### 🔁 From Source (Requires [Rust](https://www.rust-lang.org/tools/install))
-
 ```bash
-git clone https://github.com/Dwukn/kondo.git
-cd kondo
-cargo build --release
+curl -sSL https://raw.githubusercontent.com/Dwukn/kondo/main/install-kondo.sh | bash
 ```
-
-The compiled binary will be located in `target/release/kondo`.
+run the above command in your terminal
 
 ### 📥 From GitHub Releases (Beta)
 
@@ -36,6 +31,15 @@ Download the latest pre-built binary from the [Releases page](https://github.com
 3. Make it executable if needed (e.g., `chmod +x kondo` on Unix systems).
 4. Move it to a directory in your `PATH` (e.g., `/usr/local/bin`).
 
+### 🔁 From Source (Requires [Rust](https://www.rust-lang.org/tools/install))
+
+```bash
+git clone https://github.com/Dwukn/kondo.git
+cd kondo
+cargo build --release
+```
+
+The compiled binary will be located in `target/release/kondo`.
 ---
 
 ## 🚀 Usage
