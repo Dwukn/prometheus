@@ -1,6 +1,6 @@
 # Kondo
-![Kondo Badge](https://img.shields.io/badge/Clean%20Up%20Your%20Files-Spark%20Joy-ffc0cb?style=for-the-badge&logo=spring&logoColor=white)
 
+![Kondo Badge](https://img.shields.io/badge/Clean%20Up%20Your%20Files-Spark%20Joy-ffc0cb?style=for-the-badge\&logo=spring\&logoColor=white)
 
 > **Inspired by Marie Kondo**, the queen of decluttering, **Kondo** is a simple yet powerful CLI tool to tidy up your directories by organizing files into folders based on their extensions.
 
@@ -8,16 +8,16 @@
 
 ## ✨ Features
 
-- Organizes files by their extension (e.g., `.jpg`, `.pdf`, `.txt`).
-- Supports a `--dry-run` mode to preview changes without modifying any files.
-- Simple and fast — perfect for quick directory cleanups.
-- Easy to use with minimal setup.
+* Organizes files by their extension (e.g., `.jpg`, `.pdf`, `.txt`).
+* Supports a `--dry-run` mode to preview changes without modifying any files.
+* Simple and fast — perfect for quick directory cleanups.
+* Easy to use with minimal setup.
 
 ---
 
 ## 📦 Installation
 
-You will need [Rust](https://www.rust-lang.org/tools/install) installed. Then:
+### 🔁 From Source (Requires [Rust](https://www.rust-lang.org/tools/install))
 
 ```bash
 git clone https://github.com/Dwukn/kondo.git
@@ -26,6 +26,15 @@ cargo build --release
 ```
 
 The compiled binary will be located in `target/release/kondo`.
+
+### 📥 From GitHub Releases (Beta)
+
+Download the latest pre-built binary from the [Releases page](https://github.com/Dwukn/kondo/releases).
+
+1. Go to the [GitHub Releases](https://github.com/Dwukn/kondo/releases).
+2. Download the binary for your platform (`kondo-linux`, `kondo-macos`, `kondo-windows.exe`, etc.).
+3. Make it executable if needed (e.g., `chmod +x kondo` on Unix systems).
+4. Move it to a directory in your `PATH` (e.g., `/usr/local/bin`).
 
 ---
 
@@ -37,8 +46,8 @@ kondo [OPTIONS]
 
 ### Options
 
-| Option           | Description                                                 |
-|------------------|-------------------------------------------------------------|
+| Option            | Description                                                |
+| ----------------- | ---------------------------------------------------------- |
 | `-d, --directory` | Specify the directory to organize (default is current `.`) |
 | `--dry-run`       | Show what would happen without actually moving files       |
 
@@ -66,10 +75,11 @@ kondo --directory /path/to/your/folder --dry-run
 
 ## 🛠 How It Works
 
-- **Scan**: The program scans all files in the specified directory (non-recursively).
-- **Group**: Files are grouped based on their extensions.
-- **Move**: Files are moved into new folders named after their extensions.
-  - Files without an extension are moved into a folder called `no_extension`.
+* **Scan**: The program scans all files in the specified directory (non-recursively).
+* **Group**: Files are grouped based on their extensions.
+* **Move**: Files are moved into new folders named after their extensions.
+
+  * Files without an extension are moved into a folder called `no_extension`.
 
 Example:
 
@@ -97,8 +107,8 @@ After running `kondo`:
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!  
-Feel free to check the [issues page](https://github.com/your-username/kondo/issues) if you want to contribute.
+Contributions, issues, and feature requests are welcome!
+Feel free to check the [issues page](https://github.com/Dwukn/kondo/issues) if you want to contribute.
 
 ---
 
@@ -110,7 +120,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 💡 Future Improvements
 
-- Recursive directory organization
-- Configurable rules (e.g., based on file size, creation date)
-- Better error handling
-- Option to undo the last organization
+* Recursive directory organization
+* Configurable rules (e.g., based on file size, creation date)
+* Better error handling
+* Option to undo the last organization
