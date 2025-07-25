@@ -1,0 +1,6 @@
+[submodule "ZSH-plugins"]
+	path = ZSH-plugins
+	url = git@github.com:Dwukn/ZSH-plugins.git
+[submodule "HyperDots"]
+	path = HyperDots
+	url = git@github.com:Dwukn/HyperDots.git
