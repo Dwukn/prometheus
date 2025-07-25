@@ -1,0 +1,31 @@
+name: l_edger
+description: A Flutter application for managing links with folders and tags.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.0.3
+  sqflite: ^2.0.2+1
+  path: ^1.8.1
+  url_launcher: ^6.1.5
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter:
+  uses-material-design: true
+
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"

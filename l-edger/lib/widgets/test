@@ -1,0 +1,733 @@
+// home_screen.dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/link_provider.dart';
+import '../models/link.dart';
+import '../models/folder.dart';
+import '../widgets/folder_list.dart';
+import '../widgets/link_list.dart';
+import '../widgets/add_link_form.dart';
+import '../widgets/add_folder_form.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0), // Added padding for spacing
+          child: Text('Link Manager'),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: LinkSearchDelegate(context),
+              );
+            },
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Center(
+                child: Text(
+                  'Folders',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Consumer<LinkProvider>(
+                builder: (context, provider, child) {
+                  return FolderList(
+                    folders: provider.folders,
+                    currentFolderId: provider.currentFolderId,
+                    onFolderTap: (folderId) {
+                      provider.setCurrentFolder(folderId);
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.create_new_folder),
+              title: const Text('Add Folder'),
+              onTap: () {
+                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (context) => const AddFolderDialog(),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Consumer<LinkProvider>(
+        builder: (context, provider, child) {
+          final currentFolder = provider.folders.firstWhere(
+            (folder) => folder.id.toString() == provider.currentFolderId,
+            orElse: () => Folder(
+              id: 1,
+              name: 'Default',
+              dateCreated: DateTime.now(),
+            ),
+          );
+
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.folder),
+                    const SizedBox(width: 8),
+                    Text(
+                      currentFolder.name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(),  // Divider between folder name and links
+              Expanded(
+                child: LinkList(
+                  links: provider.links,
+                  onDelete: (id) => provider.deleteLink(id),
+                  onEdit: (link) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AddLinkDialog(
+                        isEditing: true,
+                        link: link,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => const AddLinkDialog(),
+          );
+        },
+        child: const Icon(Icons.add),
+        tooltip: 'Add a new link', // Tooltip for FAB
+      ),
+    );
+  }
+}
+
+class LinkSearchDelegate extends SearchDelegate<String> {
+  final BuildContext context;
+
+  LinkSearchDelegate(this.context);
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, '');
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final provider = Provider.of<LinkProvider>(context, listen: false);
+    provider.search(query);
+
+    return Consumer<LinkProvider>(
+      builder: (context, provider, child) {
+        return LinkList(
+          links: provider.links,
+          onDelete: (id) => provider.deleteLink(id),
+          onEdit: (link) {
+            showDialog(
+              context: context,
+              builder: (context) => AddLinkDialog(
+                isEditing: true,
+                link: link,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // Show previous searches or trending searches (for now as a placeholder)
+    return const Center(
+      child: Text('Type to search links by title, URL, description, or tags'),
+    );
+  }
+}
+
+// link_list.dart
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../models/link.dart';
+
+class LinkList extends StatelessWidget {
+  final List<Link> links;
+  final Function(int) onDelete;
+  final Function(Link) onEdit;
+
+  const LinkList({
+    Key? key,
+    required this.links,
+    required this.onDelete,
+    required this.onEdit,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (links.isEmpty) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.link_off,
+                size: 48.0,
+                color: Colors.grey,
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                'No links found. Add some!',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: links.length,
+      itemBuilder: (context, index) {
+        final link = links[index];
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          elevation: 5.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: ListTile(
+            title: Text(
+              link.title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  link.url,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.blue),
+                ),
+                if (link.description != null && link.description!.isNotEmpty)
+                  Text(
+                    link.description!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
+                if (link.tags.isNotEmpty)
+                  Wrap(
+                    spacing: 4,
+                    children: link.tags
+                        .map((tag) => Chip(
+                              label: Text(tag),
+                              backgroundColor: Colors.blueAccent,
+                              labelStyle: TextStyle(color: Colors.white),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                            ))
+                        .toList(),
+                  ),
+              ],
+            ),
+            onTap: () async {
+              final Uri url = Uri.parse(link.url);
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Could not launch ${link.url}'),
+                    backgroundColor: Colors.red,
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              }
+            },
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.blue),
+                  onPressed: () => onEdit(link),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () => onDelete(link.id!),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+// folder_list.dart
+import 'package:flutter/material.dart';
+import '../models/folder.dart';
+import '../providers/link_provider.dart';
+import 'package:provider/provider.dart';
+
+class FolderList extends StatelessWidget {
+  final List<Folder> folders;
+  final String currentFolderId;
+  final Function(String) onFolderTap;
+
+  const FolderList({
+    Key? key,
+    required this.folders,
+    required this.currentFolderId,
+    required this.onFolderTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: folders.length,
+      itemBuilder: (context, index) {
+        final folder = folders[index];
+        bool isSelected = folder.id.toString() == currentFolderId;
+
+        return ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+          title: Text(
+            folder.name,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              color: isSelected ? Colors.blueAccent : Colors.black,
+            ),
+          ),
+          tileColor: isSelected ? Colors.blue.withOpacity(0.1) : null,
+          selected: isSelected,
+          onTap: () => onFolderTap(folder.id.toString()),
+          leading: Icon(
+            Icons.folder,
+            color: isSelected ? Colors.blueAccent : Colors.grey,
+          ),
+          trailing: folder.id != 1
+              ? IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    _showDeleteDialog(context, folder);
+                  },
+                )
+              : null,
+        );
+      },
+    );
+  }
+
+  void _showDeleteDialog(BuildContext context, Folder folder) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Folder'),
+        content: Text(
+          'Are you sure you want to delete "${folder.name}"? All links will be moved to the Default folder.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('CANCEL'),
+          ),
+          TextButton(
+            onPressed: () {
+              Provider.of<LinkProvider>(context, listen: false)
+                  .deleteFolder(folder.id!);
+              Navigator.pop(context);
+            },
+            child: const Text('DELETE'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// add_link_form.dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/link.dart';
+import '../providers/link_provider.dart';
+
+class AddLinkDialog extends StatefulWidget {
+  final bool isEditing;
+  final Link? link;
+
+  const AddLinkDialog({
+    Key? key,
+    this.isEditing = false,
+    this.link,
+  }) : super(key: key);
+
+  @override
+  State<AddLinkDialog> createState() => _AddLinkDialogState();
+}
+
+class _AddLinkDialogState extends State<AddLinkDialog> {
+  final _formKey = GlobalKey<FormState>();
+  late TextEditingController _titleController;
+  late TextEditingController _urlController;
+  late TextEditingController _descriptionController;
+  late TextEditingController _tagsController;
+  String _selectedFolderId = '1';
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.link?.title ?? '');
+    _urlController = TextEditingController(text: widget.link?.url ?? '');
+    _descriptionController =
+        TextEditingController(text: widget.link?.description ?? '');
+    _tagsController = TextEditingController(
+        text: widget.link?.tags.join(', ') ?? '');
+    _selectedFolderId = widget.link?.folderId ??
+        Provider.of<LinkProvider>(context, listen: false).currentFolderId;
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _urlController.dispose();
+    _descriptionController.dispose();
+    _tagsController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      elevation: 10,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12), // Rounded corners for dialog
+      ),
+      title: Text(
+        widget.isEditing ? 'Edit Link' : 'Add Link',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.blueAccent,
+        ),
+      ),
+      content: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildTextField(
+                controller: _titleController,
+                label: 'Title',
+                validator: (value) => value?.isEmpty ?? true
+                    ? 'Please enter a title'
+                    : null,
+              ),
+              const SizedBox(height: 16),
+              _buildTextField(
+                controller: _urlController,
+                label: 'URL',
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please enter a URL';
+                  }
+                  if (!Uri.parse(value!).isAbsolute) {
+                    return 'Please enter a valid URL';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              _buildTextField(
+                controller: _descriptionController,
+                label: 'Description (optional)',
+                maxLines: 3,
+              ),
+              const SizedBox(height: 16),
+              _buildTextField(
+                controller: _tagsController,
+                label: 'Tags (comma separated)',
+                hintText: 'e.g. work, reference, tutorial',
+              ),
+              const SizedBox(height: 16),
+              Consumer<LinkProvider>(
+                builder: (context, provider, child) {
+                  return DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Folder',
+                      border: OutlineInputBorder(),
+                    ),
+                    value: _selectedFolderId,
+                    items: provider.folders.map((folder) {
+                      return DropdownMenuItem<String>(
+                        value: folder.id.toString(),
+                        child: Text(folder.name),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedFolderId = value!;
+                      });
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text(
+            'CANCEL',
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              final provider = Provider.of<LinkProvider>(context, listen: false);
+
+              final tags = _tagsController.text
+                  .split(',')
+                  .map((tag) => tag.trim())
+                  .where((tag) => tag.isNotEmpty)
+                  .toList();
+
+              if (widget.isEditing && widget.link != null) {
+                final updatedLink = Link(
+                  id: widget.link!.id,
+                  title: _titleController.text,
+                  url: _urlController.text,
+                  description: _descriptionController.text,
+                  folderId: _selectedFolderId,
+                  tags: tags,
+                  dateAdded: widget.link!.dateAdded,
+                );
+                provider.updateLink(updatedLink);
+              } else {
+                final newLink = Link(
+                  title: _titleController.text,
+                  url: _urlController.text,
+                  description: _descriptionController.text,
+                  folderId: _selectedFolderId,
+                  tags: tags,
+                  dateAdded: DateTime.now(),
+                );
+                provider.addLink(newLink);
+              }
+
+              // Show a SnackBar for success
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(widget.isEditing ? 'Link updated!' : 'Link added!')),
+              );
+
+              Navigator.pop(context);
+            }
+          },
+          child: Text(widget.isEditing ? 'UPDATE' : 'ADD'),
+          style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.blueAccent, // This is the correct way now
+                shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    int maxLines = 1,
+    String? hintText,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hintText,
+        border: OutlineInputBorder(),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.blueAccent),
+        ),
+      ),
+      maxLines: maxLines,
+      validator: validator,
+    );
+  }
+}
+
+// add_folder_form.dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/folder.dart';
+import '../providers/link_provider.dart';
+
+class AddFolderDialog extends StatefulWidget {
+  const AddFolderDialog({Key? key}) : super(key: key);
+
+  @override
+  State<AddFolderDialog> createState() => _AddFolderDialogState();
+}
+
+class _AddFolderDialogState extends State<AddFolderDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      elevation: 10, // Elevate the dialog
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12), // Rounded corners for the dialog
+      ),
+      title: const Text(
+        'Add Folder',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.blueAccent,
+        ),
+      ),
+      content: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Form(
+          key: _formKey,
+          child: TextFormField(
+            controller: _nameController,
+            decoration: InputDecoration(
+              labelText: 'Folder Name',
+              labelStyle: TextStyle(color: Colors.blueAccent),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8), // Rounded corners for the text field
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.blueAccent, width: 2),
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter a folder name';
+              }
+              return null;
+            },
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text(
+            'CANCEL',
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+        ElevatedButton(
+  onPressed: () {
+    if (_formKey.currentState!.validate()) {
+      final provider = Provider.of<LinkProvider>(context, listen: false);
+      final newFolder = Folder(
+        name: _nameController.text,
+        dateCreated: DateTime.now(),
+      );
+      provider.addFolder(newFolder);
+      Navigator.pop(context);
+      // Show a snack bar for feedback
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Folder added successfully!')),
+      );
+    }
+  },
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.blueAccent, // Corrected parameter name
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8), // Rounded button corners
+    ),
+  ),
+  child: const Text(
+    'ADD',
+    style: TextStyle(color: Colors.white),
+  ),
+)
+
+      ],
+    );
+  }
+}
