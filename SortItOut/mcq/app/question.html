@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array MCQs - GATE Level</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question-container {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .question-container p {
+            font-size: 16px;
+            color: #555;
+        }
+        .question-container label {
+            margin-right: 10px;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .feedback {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Array MCQs - GATE Level</h1>
+    <form id="quiz-form">
+        <div class="question-container">
+            <p>1. Consider the following array of integers: `arr = [1, 4, 2, 10, 8, 3]`. What will be the output of the following code segment?</p>
+            <pre>arr.sort(reverse=True)
+print(arr[1:4])</pre>
+            <input type="radio" id="q1a" name="q1" value="A"> A) [10, 8, 4] <br>
+            <input type="radio" id="q1b" name="q1" value="B"> B) [10, 8, 3] <br>
+            <input type="radio" id="q1c" name="q1" value="C"> C) [10, 4, 2] <br>
+            <input type="radio" id="q1d" name="q1" value="D"> D) [8, 4, 2] <br>
+        </div>
+
+        <div class="question-container">
+            <p>2. What is the time complexity of searching for an element in a sorted array of size `n` using binary search?</p>
+            <input type="radio" id="q2a" name="q2" value="A"> A) O(1) <br>
+            <input type="radio" id="q2b" name="q2" value="B"> B) O(n) <br>
+            <input type="radio" id="q2c" name="q2" value="C"> C) O(log n) <br>
+            <input type="radio" id="q2d" name="q2" value="D"> D) O(n log n) <br>
+        </div>
+
+        <!-- Repeat this block for each question -->
+
+        <div class="question-container">
+            <p>10. Consider the following code:</p>
+            <pre>arr = [1, 2, 3, 4, 5, 6]
+arr[::2] = [10, 20, 30, 40]</pre>
+            <input type="radio" id="q10a" name="q10" value="A"> A) [10, 2, 20, 4, 30, 6] <br>
+            <input type="radio" id="q10b" name="q10" value="B"> B) [10, 20, 30, 40, 5, 6] <br>
+            <input type="radio" id="q10c" name="q10" value="C"> C) [10, 20, 30, 40, 4, 6] <br>
+            <input type="radio" id="q10d" name="q10" value="D"> D) [10, 2, 3, 4, 5, 6] <br>
+        </div>
+
+        <button type="button" class="submit-btn" onclick="checkAnswers()">Submit Answers</button>
+    </form>
+
+    <div id="feedback" class="feedback"></div>
+
+    <script>
+        function checkAnswers() {
+    let correctAnswers = {
+        q1: "A",
+        q2: "C",
+        q3: "B",
+        q4: "A",
+        q5: "B",
+        q6: "A",
+        q7: "A",
+        q8: "B",
+        q9: "A",
+        q10: "A"
+    };
+
+    let userAnswers = {
+        q1: document.querySelector('input[name="q1"]:checked')?.value,
+        q2: document.querySelector('input[name="q2"]:checked')?.value,
+        q3: document.querySelector('input[name="q3"]:checked')?.value,
+        q4: document.querySelector('input[name="q4"]:checked')?.value,
+        q5: document.querySelector('input[name="q5"]:checked')?.value,
+        q6: document.querySelector('input[name="q6"]:checked')?.value,
+        q7: document.querySelector('input[name="q7"]:checked')?.value,
+        q8: document.querySelector('input[name="q8"]:checked')?.value,
+        q9: document.querySelector('input[name="q9"]:checked')?.value,
+        q10: document.querySelector('input[name="q10"]:checked')?.value
+    };
+
+    let score = 0;
+    for (let question in correctAnswers) {
+        if (userAnswers[question] === correctAnswers[question]) {
+            score++;
+        }
+    }
+
+    // Prepare feedback message
+    let feedbackMessage = `You got ${score} out of 10 correct!`;
+
+    // Change the color based on score
+    let feedbackElement = document.getElementById("feedback");
+
+    if (score === 10) {
+        feedbackElement.style.color = "green"; // Perfect score, color green
+    } else if (score >= 2) {
+        feedbackElement.style.color = "orange"; // Good score, color orange
+    } else {
+        feedbackElement.style.color = "red"; // Low score, color red
+    }
+
+    feedbackElement.textContent = feedbackMessage;
+}
+
+    </script>
+</body>
+</html>
