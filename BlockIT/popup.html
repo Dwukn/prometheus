@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Blocker Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-color: #f7f9fc;
+            --text-color: #2c3e50;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 380px;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header h2 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .input-section {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .input-section input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .input-section input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        #siteList {
+            max-height: 250px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .site-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .import-section {
+            text-align: center;
+            padding: 15px;
+            background-color: #f1f4f8;
+            border-radius: 8px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .subtle-text {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">🛡️ SafeGuard: Website Blocker</h1>
+        <div class="input-section">
+            <input type="text" id="siteInput" placeholder="example.com">
+            <button id="addSite" class="btn">Block</button>
+        </div>
+        <div id="siteList"></div>
+        <div class="import-section">
+            <button id="importSites" class="btn">Import Sites</button>
+            <input type="file" id="fileInput" class="file-input" accept=".txt,.json">
+            <p class="subtle-text">Upload .txt or .json with sites</p>
+        </div>
+        <button id="manageSites" class="btn" style="width: 100%; margin-top: 15px;">
+            Manage Blocked Sites
+        </button>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
