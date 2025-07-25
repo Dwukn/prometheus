@@ -1,0 +1,28 @@
+Instructions for Running the Project
+
+1. Run the Neural Network Training Script:
+   - First, execute the `neural_network.py` file to train your neural network.
+   ```bash
+   python neural_network.py
+   ```
+
+2. Open the Main Notebook:
+   - Open the `main.ipynb` notebook.
+
+3. Set Training Parameters:
+   - Set the number of epochs and batch size according to your requirements.
+
+4. Train the Model:
+   - Run the training cells in the notebook to train the model using the specified parameters.
+
+5. Save the Model:
+   - After training, save the trained model to a location of your choice.
+
+6. Update Model Path:
+   - Update the model path variable in the notebook to the location where you saved your trained model. Make sure the path is correct.
+   
+7. Set Image Path and Predict:
+   - Set the path to an image that you want to make predictions on.
+
+8. Run the Prediction:
+   - Run the prediction cell in the notebook to see the model's prediction on the specified image.
